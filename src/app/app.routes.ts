@@ -8,4 +8,9 @@ export const routes: Routes = [
             (m) => m.RegistrationComponent
         );
     } },
+    { path: 'employees', loadChildren: () => {
+        return import('./pages/employees/employees.routes').then(
+            (m) => m.routes,
+        );
+    } },
 ];
