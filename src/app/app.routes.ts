@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login-component/login-component';
+import { EmployeeService } from './services/employee-service';
 
 export const routes: Routes = [
     { path: '/login', component: LoginComponent },
@@ -8,9 +9,12 @@ export const routes: Routes = [
             (m) => m.RegistrationComponent
         );
     } },
-    { path: 'employees', loadChildren: () => {
+    { path: 'employees', 
+      providers: [EmployeeService],  
+      loadChildren: () => {
         return import('./pages/employees/employees.routes').then(
             (m) => m.routes,
         );
-    } },
+      }
+    },
 ];
