@@ -3,7 +3,7 @@ import { LoginComponent } from './pages/login-component/login-component';
 import { EmployeeService } from './services/employee-service';
 
 export const routes: Routes = [
-    { path: '/login', component: LoginComponent },
+    { path: 'login', component: LoginComponent },
     { path: 'registration', loadComponent: () => {
         return import('./pages/registration-component/registration-component').then(
             (m) => m.RegistrationComponent
