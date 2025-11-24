@@ -31,6 +31,7 @@ import { EmployeeService } from '../../services/employee-service';
         }
       </tbody>
     </table>
+    <ng-container *ngComponentOutlet="confirmDialog"></ng-container>      
   `,  
 })
 export class EmployeeListComponent {
@@ -39,8 +40,12 @@ export class EmployeeListComponent {
   
   employees$ = this.employeeService.getEmployees();
   isConfirmationOpen = false;
+  confirmDialog: any = null;
 
-  showConfirmationDialog() {
+  async showConfirmationDialog() {
+    this.confirmDialog = await import(
+      '../../shared/components/confirmation-dialog-component'
+    ).then((m) => m.ConfirmationDialogComponent);
     this.isConfirmationOpen = true;
   }
 }
