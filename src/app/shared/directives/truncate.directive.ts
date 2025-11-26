@@ -1,10 +1,14 @@
-import { AfterViewInit, Directive, ElementRef, Input, inject } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, InjectionToken, Input, inject } from '@angular/core';
+
+export const TruncateLimit = new InjectionToken<number>('TruncateLimit');
 
 @Directive({
     selector: '[appTruncate]'
 })
 export class TruncateDirective implements AfterViewInit {
-    @Input() limit = 80;
+
+    @Input() limit = inject(TruncateLimit, {optional: true}) ?? 80;
+    
     private readonly elRef = inject(ElementRef);
 
     ngAfterViewInit() {
