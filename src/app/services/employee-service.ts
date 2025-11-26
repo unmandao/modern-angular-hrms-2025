@@ -11,4 +11,7 @@ export class EmployeeService {
     return this.http.get<Employee[]>('/employees');
   }
 
+  getEmployee(id: number) {
+    return this.http.get<Employee>(`/employees/${id}`);
+  }
 }
