@@ -12,7 +12,7 @@ import { NgFor, NgIf } from '@angular/common';
                     {{ errorMessage }} 
                     Only following file types are permitted: 
                     <ul>
-                        @for (type of acceptArray; track type) {
+                        @for (type of accept; track type) {
                             <li>
                                 {{ type }}
                             </li>
@@ -25,13 +25,9 @@ import { NgFor, NgIf } from '@angular/common';
 })
 export class FileUploadComponent {
     @Input({required: true}) label!: string;    
-    @Input() accept: string = '';
+    @Input({transform: (value: string) => value.split(',')}) accept: string[] = [];
     @Output() selected = new EventEmitter<FileList>();
     errorMessage = '';
-
-    get acceptArray(): string[] {
-        return this.accept.split(',');
-    }
 
     onFileSelected(event: any) {
         const files: FileList = event.target.files;
