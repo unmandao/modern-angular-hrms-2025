@@ -14,4 +14,8 @@ export class EmployeeService {
   getEmployee(id: number) {
     return this.http.get<Employee>(`/employees/${id}`);
   }
+
+  createEmployee(employee: Employee) {
+      return this.http.post('/employees', employee);
+  }  
 }
