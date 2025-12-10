@@ -2,8 +2,8 @@ import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CandidateService } from '../../services/candidate-service';
+import { createSearch } from '../../shared/functions/create-search';
 
 @Component({
   selector: 'app-candidates-list',
@@ -34,15 +34,11 @@ import { CandidateService } from '../../services/candidate-service';
   standalone: true,
   imports: [AsyncPipe, RouterLink, ReactiveFormsModule],
 })
-export class CandidatesListComponent implements OnInit, OnDestroy {
+export class CandidatesListComponent implements OnInit {
   private readonly candidateService = inject(CandidateService);
   candidates$ = this.candidateService.getCandidates();
-  searchControl = new FormControl('');
-  destroy$ = new Subject<void>();                
-  search$ = this.searchControl.valueChanges.pipe(
-    debounceTime(500), 
-    takeUntil(this.destroy$) 
-  );
+  searchControl = new FormControl('');  
+  search$ = createSearch(this.searchControl);
 
   ngOnInit(): void {
     this.search$.subscribe((value) => {
@@ -52,10 +48,6 @@ export class CandidatesListComponent implements OnInit, OnDestroy {
         this.candidates$ = this.candidateService.getCandidates();
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(); 
   }
 
 }
