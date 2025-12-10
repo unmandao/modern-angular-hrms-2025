@@ -1,15 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmployeeService } from '../../services/employee-service';
 import { Employee } from '../../infrastructure/types/employee';
+import { EmployeeForm } from '../../infrastructure/types/employee-form';
 
 @Component({
   selector: 'app-create-employee-component',
-  imports: [],
+  imports: [ReactiveFormsModule],
   template: `
-    <p>
-      create-employee-component works!
-    </p>
+    <input type="text" placeholder="First Name" [formControl]="form.controls.email" />
   `,
   styles: ``,
 })
@@ -17,12 +16,12 @@ export class CreateEmployeeComponent {
 
   private readonly employeeService = inject(EmployeeService);
 
-  form = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    emali: new FormControl('', [Validators.required, Validators.email]),
-    position: new FormControl('', Validators.required),
-    level: new FormControl('', Validators.required),
+  form = new FormGroup<EmployeeForm>({
+    firstName: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
+    lastName: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
+    email: new FormControl('', {nonNullable: true, validators: [Validators.required, Validators.email]}),
+    position: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
+    level: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
   });
 
   submit() {
